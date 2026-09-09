@@ -12,19 +12,27 @@ export default function ToastContainer() {
   const toasts = useToastStore((state) => state.toasts);
   const isHydrated = useHydrated();
 
-  if (!isHydrated) return null;
+  if (!isHydrated || toasts.length === 0) return null;
 
   return (
     <div
       aria-live="polite"
       aria-atomic="false"
-      className="fixed bottom-6 right-6 z-[999] flex flex-col gap-3 max-w-[calc(100vw-3rem)] pointer-events-none items-end"
+      className="fixed bottom-6 right-6 z-[999] w-[calc(100vw-3rem)] max-w-md pointer-events-none"
     >
-      <div className="flex flex-col gap-3 w-full">
+      <div className="relative w-full h-[120px]">
         <AnimatePresence mode="popLayout">
-          {toasts.map((toast) => (
-            <ToastItem key={toast.id} toast={toast} />
-          ))}
+          {toasts.map((toast, index) => {
+            const distanceFromFront = toasts.length - 1 - index;
+            return (
+              <ToastItem
+                key={toast.id}
+                toast={toast}
+                distanceFromFront={distanceFromFront}
+                totalInStack={toasts.length}
+              />
+            );
+          })}
         </AnimatePresence>
       </div>
     </div>

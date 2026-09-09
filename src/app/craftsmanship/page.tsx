@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import Navigation from '@/components/Navigation';
 import CartDrawer from '@/components/CartDrawer';
 import { motion, useScroll, useTransform } from 'framer-motion';
@@ -44,7 +44,6 @@ const CraftSection = ({ title, text, image, index }: { title: string; text: stri
 };
 
 export default function CraftsmanshipPage() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const containerRef = useRef(null);
 
   const chapters = [
@@ -67,8 +66,8 @@ export default function CraftsmanshipPage() {
 
   return (
     <main className="min-h-screen bg-[#FBFBFB]">
-      <Navigation onCartOpen={() => setIsCartOpen(true)} />
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <Navigation />
+      <CartDrawer />
 
       {/* Editorial Intro */}
       <section className="pt-48 pb-20 px-8 max-w-[1400px] mx-auto text-center">

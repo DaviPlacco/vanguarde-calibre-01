@@ -7,11 +7,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useStore } from '@/store/useStore';
 
-export default function Navigation({ onCartOpen }: { onCartOpen: () => void }) {
+export default function Navigation({ onCartOpen }: { onCartOpen?: () => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const totalItems = useStore((state) => state.totalItems());
+  const openCart = useStore((state) => state.openCart);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,9 +52,12 @@ export default function Navigation({ onCartOpen }: { onCartOpen: () => void }) {
 
             <div className="flex items-center gap-2 md:gap-6">
               <button 
-                onClick={onCartOpen}
+                onClick={() => {
+                  if (onCartOpen) onCartOpen();
+                  openCart();
+                }}
                 aria-label={`Open shopping cart, ${totalItems} items`}
-                className="relative group p-2 z-[110]"
+                className="relative group p-2 z-[110] cursor-pointer"
               >
                 <ShoppingBag className="w-5 h-5 stroke-[1.5px]" />
                 {totalItems > 0 && (

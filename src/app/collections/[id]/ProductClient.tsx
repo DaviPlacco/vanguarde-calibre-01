@@ -60,7 +60,6 @@ const getProductData = (id: string): ProductDetail => {
 
 export default function ProductClient({ id }: { id: string }) {
   const product = getProductData(id);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
   const mounted = useHydrated();
@@ -97,13 +96,12 @@ export default function ProductClient({ id }: { id: string }) {
       action: {
         label: 'View Cart',
         onClick: () => {
-          setIsCartOpen(true);
           openCart();
         },
       },
     });
 
-    setIsCartOpen(true);
+    openCart();
   };
 
   const handleConciergeClick = () => {
@@ -112,8 +110,8 @@ export default function ProductClient({ id }: { id: string }) {
 
   return (
     <main className="min-h-screen bg-[#FBFBFB]">
-      <Navigation onCartOpen={() => setIsCartOpen(true)} />
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <Navigation />
+      <CartDrawer />
 
       <AnimatePresence>
         {isExpanded && (

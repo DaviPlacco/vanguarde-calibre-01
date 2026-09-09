@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
 import CartDrawer from '@/components/CartDrawer';
@@ -8,8 +7,6 @@ import Footer from '@/components/Footer';
 import { toast } from '@/store/useToast';
 
 export default function ShippingReturns() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  
   const handleCopyEmail = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText('concierge@vanguarde.com');
@@ -34,8 +31,8 @@ export default function ShippingReturns() {
 
   return (
     <main className="min-h-screen bg-[#FBFBFB] text-[#1A1A1A]">
-      <Navigation onCartOpen={() => setIsCartOpen(true)} />
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <Navigation />
+      <CartDrawer />
       
       <motion.div 
         variants={containerVariants}

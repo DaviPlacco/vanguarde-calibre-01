@@ -42,7 +42,6 @@ const boutiques = [
 ];
 
 export default function BoutiquesPage() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedBoutique, setSelectedBoutique] = useState(boutiques[0]);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [requestedDate, setRequestedDate] = useState('');
@@ -71,8 +70,8 @@ export default function BoutiquesPage() {
 
   return (
     <main className="min-h-screen bg-[#FBFBFB]">
-      <Navigation onCartOpen={() => setIsCartOpen(true)} />
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <Navigation />
+      <CartDrawer />
 
       <section className="pt-32 md:pt-40 pb-20 px-6 md:px-8">
         <div className="max-w-[1400px] mx-auto flex flex-col-reverse lg:flex-row gap-12 lg:gap-20">

@@ -20,7 +20,9 @@ export default function CartDrawer({ isOpen: propsIsOpen, onClose: propsOnClose 
   const { cart, updateQuantity, removeItem, subtotal, isCartOpen, closeCart } = useStore();
   const mounted = useHydrated();
 
-  const isOpen = propsIsOpen !== undefined ? propsIsOpen : isCartOpen;
+  // Open if either local prop is true OR global store isCartOpen is true
+  const isOpen = Boolean(propsIsOpen) || isCartOpen;
+
   const handleClose = () => {
     if (propsOnClose) {
       propsOnClose();
@@ -77,7 +79,7 @@ export default function CartDrawer({ isOpen: propsIsOpen, onClose: propsOnClose 
               <button 
                 onClick={handleClose} 
                 aria-label="Close cart"
-                className="p-2.5 hover:bg-black/5 rounded-full transition-colors"
+                className="p-2.5 hover:bg-black/5 rounded-full transition-colors cursor-pointer"
               >
                 <X className="w-5 h-5 stroke-[1.5px]" />
               </button>
@@ -107,7 +109,7 @@ export default function CartDrawer({ isOpen: propsIsOpen, onClose: propsOnClose 
                         </div>
                         <button
                           onClick={() => handleRemove(item.id, item.variant, item.name)}
-                          className="text-gray-300 hover:text-rose-500 p-1 transition-colors"
+                          className="text-gray-300 hover:text-rose-500 p-1 transition-colors cursor-pointer"
                           title="Remove timepiece"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
@@ -119,7 +121,7 @@ export default function CartDrawer({ isOpen: propsIsOpen, onClose: propsOnClose 
                           <button 
                             onClick={() => handleQuantityChange(item.id, item.variant, item.name, item.quantity, -1)}
                             aria-label="Decrease quantity"
-                            className="text-gray-400 hover:text-black transition-colors p-0.5"
+                            className="text-gray-400 hover:text-black transition-colors p-0.5 cursor-pointer"
                           >
                             <Minus className="w-3 h-3" />
                           </button>
@@ -127,7 +129,7 @@ export default function CartDrawer({ isOpen: propsIsOpen, onClose: propsOnClose 
                           <button 
                             onClick={() => handleQuantityChange(item.id, item.variant, item.name, item.quantity, 1)}
                             aria-label="Increase quantity"
-                            className="text-gray-400 hover:text-black transition-colors p-0.5"
+                            className="text-gray-400 hover:text-black transition-colors p-0.5 cursor-pointer"
                           >
                             <Plus className="w-3 h-3" />
                           </button>
@@ -159,7 +161,7 @@ export default function CartDrawer({ isOpen: propsIsOpen, onClose: propsOnClose 
                     handleClose();
                     toast.gold('Securing Timepieces', 'Transferring to encrypted checkout...');
                   }}
-                  className="w-full py-5 bg-black text-white text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-accent transition-colors duration-500 rounded-sm text-center block shadow-lg shadow-black/10 active:scale-[0.99]"
+                  className="w-full py-5 bg-black text-white text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-accent transition-colors duration-500 rounded-sm text-center block shadow-lg shadow-black/10 active:scale-[0.99] cursor-pointer"
                 >
                   Proceed to Checkout
                 </Link>

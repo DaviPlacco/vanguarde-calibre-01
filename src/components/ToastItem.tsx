@@ -16,14 +16,20 @@ import { Toast, useToastStore } from '@/store/useToast';
 
 interface ToastItemProps {
   toast: Toast;
+  distanceFromFront: number;
+  totalInStack: number;
 }
 
-export default function ToastItem({ toast }: ToastItemProps) {
+export default function ToastItem({ toast, distanceFromFront }: ToastItemProps) {
   const removeToast = useToastStore((state) => state.removeToast);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const [progress, setProgress] = useState(100);
   const remainingTimeRef = useRef<number>(toast.duration);
   const animationFrameRef = useRef<number | null>(null);
+
+  // Only run the timer if this toast is the front-most card and not hovered
+  const isFront = distanceFromFront === 0;
+  const isPaused = isHovered || !isFront;
 
   useEffect(() => {
     let lastTime = Date.now();
@@ -56,8 +62,8 @@ export default function ToastItem({ toast }: ToastItemProps) {
     };
   }, [isPaused, toast.duration, toast.id, removeToast]);
 
-  const handleMouseEnter = () => setIsPaused(true);
-  const handleMouseLeave = () => setIsPaused(false);
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
 
   const getIcon = () => {
     switch (toast.type) {
@@ -75,18 +81,46 @@ export default function ToastItem({ toast }: ToastItemProps) {
     }
   };
 
+  // 3D Stacking Deck calculations
+  const yOffset = -distanceFromFront * 14;
+  const scale = Math.max(0.82, 1 - distanceFromFront * 0.055);
+  const zIndex = 50 - distanceFromFront * 10;
+  const opacity = distanceFromFront === 0 ? 1 : distanceFromFront === 1 ? 0.85 : distanceFromFront === 2 ? 0.55 : 0;
+  const brightness = distanceFromFront === 0 ? 1 : distanceFromFront === 1 ? 0.72 : 0.48;
+  const blur = distanceFromFront === 0 ? 0 : distanceFromFront * 0.4;
+
+  const handleCardClick = () => {
+    if (!isFront) {
+      // If clicking a card behind, bring it into focus or dismiss the front ones
+      useToastStore.setState((state) => {
+        const withoutCurrent = state.toasts.filter((t) => t.id !== toast.id);
+        return { toasts: [...withoutCurrent, toast] };
+      });
+    }
+  };
+
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9, y: -20, transition: { duration: 0.25 } }}
-      transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+      initial={{ opacity: 0, y: 35, scale: 0.95 }}
+      animate={{
+        opacity,
+        y: yOffset,
+        scale,
+        zIndex,
+        filter: `brightness(${brightness}) blur(${blur}px)`,
+        transition: { type: 'spring', damping: 26, stiffness: 320 }
+      }}
+      exit={{ opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.2 } }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleCardClick}
+      style={{ zIndex }}
       role="status"
       aria-live="polite"
-      className="relative w-full max-w-md bg-[#121212]/95 backdrop-blur-2xl border border-white/10 hover:border-accent/40 rounded-xl p-5 shadow-[0_20px_50px_rgba(0,0,0,0.6)] text-white overflow-hidden transition-colors duration-300 group pointer-events-auto"
+      className={`absolute bottom-0 right-0 w-full max-w-md bg-[#121212]/95 backdrop-blur-2xl border border-white/10 hover:border-accent/40 rounded-xl p-5 shadow-[0_25px_60px_-10px_rgba(0,0,0,0.8)] text-white overflow-hidden transition-colors duration-300 group ${
+        isFront ? 'pointer-events-auto shadow-2xl' : 'pointer-events-auto cursor-pointer select-none'
+      }`}
     >
       {/* Subtle Radial Glow */}
       <div className="absolute top-0 left-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
@@ -124,7 +158,7 @@ export default function ToastItem({ toast }: ToastItemProps) {
           </h4>
 
           {toast.description && (
-            <p className="text-xs text-neutral-400 font-sans mt-0.5 leading-relaxed truncate-2-lines">
+            <p className="text-xs text-neutral-400 font-sans mt-0.5 leading-relaxed line-clamp-2">
               {toast.description}
             </p>
           )}
@@ -140,11 +174,13 @@ export default function ToastItem({ toast }: ToastItemProps) {
             {toast.action && (
               <button
                 type="button"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
                   toast.action?.onClick();
                   removeToast(toast.id);
                 }}
-                className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] font-bold text-accent hover:text-white transition-colors bg-accent/10 hover:bg-accent/20 px-3 py-1.5 rounded-full border border-accent/20 cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.2em] font-bold text-accent hover:text-white transition-colors bg-accent/15 hover:bg-accent/30 px-3.5 py-1.5 rounded-full border border-accent/30 cursor-pointer relative z-30 shadow-xs"
               >
                 <span>{toast.action.label}</span>
                 <ArrowRight className="w-3 h-3" />
@@ -156,15 +192,18 @@ export default function ToastItem({ toast }: ToastItemProps) {
         {/* Close Button */}
         <button
           type="button"
-          onClick={() => removeToast(toast.id)}
+          onClick={(e) => {
+            e.stopPropagation();
+            removeToast(toast.id);
+          }}
           aria-label="Dismiss notification"
-          className="absolute top-4 right-4 text-neutral-500 hover:text-white p-1 rounded-full hover:bg-white/5 transition-all duration-200 cursor-pointer"
+          className="absolute top-4 right-4 text-neutral-500 hover:text-white p-1 rounded-full hover:bg-white/5 transition-all duration-200 cursor-pointer z-30"
         >
           <X className="w-4 h-4 stroke-[1.5px]" />
         </button>
       </div>
 
-      {/* Countdown Progress Bar */}
+      {/* Countdown Progress Bar (Only active when at front) */}
       <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-white/5 overflow-hidden">
         <div
           className="h-full bg-gradient-to-r from-accent via-[#E5C98E] to-accent transition-[width] duration-75 ease-linear"

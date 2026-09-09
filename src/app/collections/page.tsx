@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import CartDrawer from '@/components/CartDrawer';
 import Footer from '@/components/Footer';
@@ -16,12 +15,10 @@ const otherModels = [
 ];
 
 export default function CollectionsPage() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
   return (
     <main className="min-h-screen bg-[#FBFBFB]">
-      <Navigation onCartOpen={() => setIsCartOpen(true)} />
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <Navigation />
+      <CartDrawer />
 
       <section className="pt-40 pb-20 px-8">
         <div className="max-w-[1400px] mx-auto">

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Hero from '@/components/Hero';
 import ScrollytellingWatch from '@/components/ScrollytellingWatch';
@@ -10,15 +9,13 @@ import CartDrawer from '@/components/CartDrawer';
 import Footer from '@/components/Footer';
 
 export default function Home() {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-
   return (
     <main className="relative bg-[#FBFBFB]">
       {/* Dynamic Header */}
-      <Navigation onCartOpen={() => setIsCartOpen(true)} />
+      <Navigation />
       
       {/* Cart Component - Managed centrally */}
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+      <CartDrawer />
 
       {/* Hero Section - The Grand Entrance */}
       <Hero />
