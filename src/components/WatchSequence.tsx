@@ -43,7 +43,7 @@ export default function WatchSequence({ className = '' }: WatchSequenceProps) {
       for (let i = 0; i < 24; i++) {
         const promise = new Promise<HTMLImageElement>((resolve) => {
           const img = new Image();
-          img.src = `/assets/sequence/frame-${i}.jpg`;
+          img.src = `/vanguarde-calibre-01/assets/sequence/frame-${i}.jpg`;
           img.onload = () => {
             loadedImages[i] = img;
             resolve(img);
@@ -131,7 +131,7 @@ export default function WatchSequence({ className = '' }: WatchSequenceProps) {
             className="absolute inset-0 flex items-center justify-center p-20"
           >
             <img 
-              src="/watch-hero.png" 
+              src="/vanguarde-calibre-01/watch-hero.png" 
               alt="Vanguarde Fallback" 
               className="max-w-[800px] w-full h-full object-contain opacity-40 grayscale"
             />

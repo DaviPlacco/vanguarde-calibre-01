@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     unoptimized: true,
   },
   basePath: '/vanguarde-calibre-01',
+  trailingSlash: true,
 };
 
 export default nextConfig;

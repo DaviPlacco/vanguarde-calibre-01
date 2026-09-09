@@ -19,6 +19,11 @@ export interface ProductVariant {
 interface AppState {
   // Cart State
   cart: CartItem[];
+  isCartOpen: boolean;
+  setIsCartOpen: (open: boolean) => void;
+  openCart: () => void;
+  closeCart: () => void;
+  clearCart: () => void;
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
   removeItem: (id: string, variant: string) => void;
   updateQuantity: (id: string, variant: string, delta: number) => void;
@@ -35,12 +40,17 @@ export const useStore = create<AppState>((set, get) => ({
   currentVariant: { 
     id: 'black', 
     name: 'Obsidian Leather', 
-    image: '/watch-hero.png', 
+    image: '/vanguarde-calibre-01/watch-hero.png', 
     color: '#1A1A1A' 
   },
   setCurrentVariant: (variant) => set({ currentVariant: variant }),
 
   // Cart Management
+  isCartOpen: false,
+  setIsCartOpen: (open) => set({ isCartOpen: open }),
+  openCart: () => set({ isCartOpen: true }),
+  closeCart: () => set({ isCartOpen: false }),
+  clearCart: () => set({ cart: [] }),
   cart: [
     // Pre-populate with 1 item for demo purposes as seen in image_8
     {
@@ -49,7 +59,7 @@ export const useStore = create<AppState>((set, get) => ({
       variant: 'Obsidian Leather',
       price: 12400,
       quantity: 1,
-      image: '/watch-hero.png'
+      image: '/vanguarde-calibre-01/watch-hero.png'
     }
   ],
 

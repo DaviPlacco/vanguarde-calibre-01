@@ -7,7 +7,6 @@ import ScrollytellingWatch from '@/components/ScrollytellingWatch';
 import SpecsGrid from '@/components/SpecsGrid';
 import PersonalizationSection from '@/components/PersonalizationSection';
 import CartDrawer from '@/components/CartDrawer';
-import { motion } from 'framer-motion';
 import Footer from '@/components/Footer';
 
 export default function Home() {

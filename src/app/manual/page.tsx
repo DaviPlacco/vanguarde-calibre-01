@@ -1,10 +1,11 @@
 'use client';
 
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'framer-motion';
+import { motion, useSpring, useMotionValue } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { X, Cpu, Gauge, Zap, Crosshair } from 'lucide-react';
+import { toast } from '@/store/useToast';
 
 export default function TechnicalManual() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -28,6 +29,18 @@ export default function TechnicalManual() {
     dotX.set(mousePosition.x * 20);
     dotY.set(mousePosition.y * 20);
   }, [mousePosition, dotX, dotY]);
+
+  const handleStatClick = (stat: { label: string; value: string; unit: string; desc: string }) => {
+    toast.info(`${stat.label} Metric`, `${stat.value} ${stat.unit} · ${stat.desc}`, {
+      badge: 'MICRO-SPECIFICATION'
+    });
+  };
+
+  const handleBlueprintClick = () => {
+    toast.gold('Schematic Exploded View', 'Inspecting Calibre 01 architectural blueprint at high magnification.', {
+      badge: 'CHRONOMETRIC BLUEPRINT'
+    });
+  };
 
   const stats = [
     { label: 'Components', value: '248', unit: 'Parts', icon: Cpu, desc: 'Individual hand-finished elements' },
@@ -108,7 +121,8 @@ export default function TechnicalManual() {
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.7 + (i * 0.2) }}
-                  className="flex items-start gap-6 group"
+                  onClick={() => handleStatClick(stat)}
+                  className="flex items-start gap-6 group cursor-pointer"
                 >
                   <div className="mt-2 p-3 border border-white/5 bg-white/[0.02] group-hover:bg-accent transition-colors duration-500">
                     <stat.icon className="w-5 h-5 stroke-[1px]" />
@@ -133,7 +147,8 @@ export default function TechnicalManual() {
             initial={{ opacity: 0, scale: 0.9, rotateY: 20 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             transition={{ duration: 1.2, ease: "circOut", delay: 0.8 }}
-            className="relative w-full aspect-square max-w-[800px] group"
+            onClick={handleBlueprintClick}
+            className="relative w-full aspect-square max-w-[800px] group cursor-pointer"
           >
             {/* Blueprint Image Container with Scanline Effect */}
             <div className="relative w-full h-full border border-white/10 overflow-hidden shadow-2xl shadow-black/50">
@@ -172,10 +187,10 @@ export default function TechnicalManual() {
             >
               <p className="text-[9px] text-accent font-bold uppercase mb-2">Mechanical Approval</p>
               <div className="flex gap-1 h-8 items-end">
-                {[...Array(12)].map((_, i) => (
+                {[14, 22, 18, 28, 12, 26, 16, 30, 20, 15, 24, 18].map((val, i) => (
                   <motion.div 
                     key={i} 
-                    animate={{ height: [8, Math.random() * 24 + 8, 8] }}
+                    animate={{ height: [8, val, 8] }}
                     transition={{ duration: 1.5, repeat: Infinity, delay: i * 0.1 }}
                     className="w-[2px] bg-white/20" 
                   />

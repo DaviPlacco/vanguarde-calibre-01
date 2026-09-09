@@ -21,11 +21,6 @@ export default function Navigation({ onCartOpen }: { onCartOpen: () => void }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
-
   const navLinks = [
     { label: 'Collections', href: '/collections' },
     { label: 'Craftsmanship', href: '/craftsmanship' },
@@ -36,7 +31,7 @@ export default function Navigation({ onCartOpen }: { onCartOpen: () => void }) {
     <>
       <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${isScrolled || isMobileMenuOpen ? 'py-4 bg-white/80 backdrop-blur-md border-b border-black/5' : 'py-8 bg-transparent'}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-8 flex justify-between items-center">
-          <Link href="/" className="text-xl font-serif tracking-widest uppercase hover:opacity-70 transition-opacity z-[110]">
+          <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="text-xl font-serif tracking-widest uppercase hover:opacity-70 transition-opacity z-[110]">
             Vanguarde
           </Link>
 
@@ -117,6 +112,7 @@ export default function Navigation({ onCartOpen }: { onCartOpen: () => void }) {
                 >
                   <Link 
                     href={link.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
                     className={`text-5xl font-serif tracking-tight ${pathname === link.href ? 'text-black' : 'text-gray-300'}`}
                   >
                     {link.label}

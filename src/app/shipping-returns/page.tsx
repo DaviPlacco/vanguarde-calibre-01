@@ -1,10 +1,24 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
+import CartDrawer from '@/components/CartDrawer';
 import Footer from '@/components/Footer';
+import { toast } from '@/store/useToast';
 
 export default function ShippingReturns() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  
+  const handleCopyEmail = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText('concierge@vanguarde.com');
+    }
+    toast.success('Concierge Email Copied', 'concierge@vanguarde.com copied to clipboard.', {
+      badge: 'CONCIERGE DESK'
+    });
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -15,12 +29,13 @@ export default function ShippingReturns() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "circOut" } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
   };
 
   return (
     <main className="min-h-screen bg-[#FBFBFB] text-[#1A1A1A]">
-      <Navigation />
+      <Navigation onCartOpen={() => setIsCartOpen(true)} />
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       
       <motion.div 
         variants={containerVariants}
@@ -70,7 +85,14 @@ export default function ShippingReturns() {
           <section>
             <h2 className="text-2xl font-serif italic mb-6">5. Contact Concierge</h2>
             <p className="text-gray-600 leading-relaxed italic">
-              Should you require assistance with your delivery or return, our concierge team is available at <span className="text-accent border-b border-accent/30 cursor-pointer">concierge@vanguarde.com</span>.
+              Should you require assistance with your delivery or return, our concierge team is available at{' '}
+              <button 
+                type="button"
+                onClick={handleCopyEmail}
+                className="text-accent border-b border-accent/30 hover:border-accent cursor-pointer font-bold inline-block"
+              >
+                concierge@vanguarde.com
+              </button>.
             </p>
           </section>
         </motion.div>

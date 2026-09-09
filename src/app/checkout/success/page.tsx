@@ -1,16 +1,35 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Check } from 'lucide-react';
+import { Check, Copy } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { useStore } from '@/store/useStore';
+import { toast } from '@/store/useToast';
 
 export default function SuccessPage() {
-  const { cart } = useStore();
-  
-  // Ideally, clear cart here in a real app
-  // useEffect(() => { /* clear cart logic */ }, []);
+  const { clearCart } = useStore();
+
+  useEffect(() => {
+    clearCart();
+    toast.success(
+      'Acquisition Finalized',
+      'Order #VG-2026-0482 has been confirmed. Secure courier dispatch initiated.',
+      {
+        badge: 'TRANSACTION CONFIRMED',
+        duration: 6000,
+      }
+    );
+  }, [clearCart]);
+
+  const handleCopyRef = () => {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText('VG-2026-0482');
+    }
+    toast.success('Reference Copied', 'Order Ref #VG-2026-0482 copied to clipboard.', {
+      badge: 'CLIPBOARD'
+    });
+  };
 
   return (
     <main className="min-h-screen bg-[#1A1A1A] flex items-center justify-center p-8 overflow-hidden relative">
@@ -37,15 +56,26 @@ export default function SuccessPage() {
         <h1 className="text-5xl md:text-7xl font-serif text-white mb-8">A Legacy <br /><span className="italic">Secured</span></h1>
         
         <p className="text-gray-400 text-lg leading-relaxed mb-12 max-w-lg mx-auto italic">
-          "Your Vanguarde timepiece is being prepared for secure shipment. A legacy is on its way."
+          &ldquo;Your Vanguarde timepiece is being prepared for secure shipment. A legacy is on its way.&rdquo;
         </p>
 
         <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-          <Link href="/" className="px-10 py-5 border border-white/10 text-white text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white hover:text-black transition-all duration-500 rounded-sm">
+          <Link 
+            href="/" 
+            onClick={() => toast.info('Returning to Showroom', 'Navigating to main exhibition...')}
+            className="px-10 py-5 border border-white/10 text-white text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-white hover:text-black transition-all duration-500 rounded-sm"
+          >
             Return to Dashboard
           </Link>
           <div className="h-[1px] w-12 bg-white/10 hidden md:block" />
-          <p className="text-[10px] uppercase tracking-widest text-accent font-bold">Ref: #VG-2026-0482</p>
+          <button 
+            type="button"
+            onClick={handleCopyRef}
+            className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-accent font-bold hover:text-white transition-colors cursor-pointer p-2 rounded-sm bg-white/5 border border-white/10"
+          >
+            <Copy className="w-3.5 h-3.5" />
+            <span>Ref: #VG-2026-0482</span>
+          </button>
         </div>
       </motion.div>
     </main>

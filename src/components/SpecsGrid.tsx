@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Shield, Zap, Clock, Droplets } from 'lucide-react';
+import { toast } from '@/store/useToast';
 
 const specs = [
   { 
@@ -50,7 +51,8 @@ export default function SpecsGrid() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="group p-8 border border-black/5 hover:border-accent/30 transition-all duration-500 rounded-2xl bg-[#FBFBFB] hover:shadow-2xl hover:shadow-accent/5"
+                onClick={() => toast.gold(`${spec.title}: ${spec.value}`, spec.detail, { badge: 'HOROLOGICAL SPEC' })}
+                className="group p-8 border border-black/5 hover:border-accent/30 transition-all duration-500 rounded-2xl bg-[#FBFBFB] hover:shadow-2xl hover:shadow-accent/5 cursor-pointer"
               >
                 <spec.icon className="w-6 h-6 mb-6 stroke-[1px] text-accent group-hover:scale-110 transition-transform duration-500" />
                 <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-2">{spec.title}</p>

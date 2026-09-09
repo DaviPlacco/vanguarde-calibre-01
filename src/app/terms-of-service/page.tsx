@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Navigation from '@/components/Navigation';
+import CartDrawer from '@/components/CartDrawer';
 import Footer from '@/components/Footer';
 
 export default function TermsOfService() {
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -15,12 +18,13 @@ export default function TermsOfService() {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "circOut" } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
   };
 
   return (
     <main className="min-h-screen bg-[#FBFBFB] text-[#1A1A1A]">
-      <Navigation />
+      <Navigation onCartOpen={() => setIsCartOpen(true)} />
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       
       <motion.div 
         variants={containerVariants}

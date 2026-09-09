@@ -15,8 +15,8 @@ interface PremiumWatchSequenceProps {
 
 export default function PremiumWatchSequence({ 
   frameCount = 17, 
-  assetsPath = '/assets/sequence/frame-', 
-  fallbackImagePath = '/watch-hero.png'
+  assetsPath = '/vanguarde-calibre-01/assets/sequence/frame-', 
+  fallbackImagePath = '/vanguarde-calibre-01/watch-hero.png'
 }: PremiumWatchSequenceProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);

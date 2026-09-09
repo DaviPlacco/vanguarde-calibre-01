@@ -3,15 +3,25 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { useStore, ProductVariant } from '@/store/useStore';
+import { toast } from '@/store/useToast';
 
 const variants: ProductVariant[] = [
-  { id: 'black', name: 'Obsidian Leather', image: '/watch-hero.png', color: '#1A1A1A' },
-  { id: 'titanium', name: 'Brushed Titanium', image: '/watch-titanium.png', color: '#8E8E8E' },
-  { id: 'cognac', name: 'Cognac Calfskin', image: '/watch-cognac.png', color: '#5D3A1A' },
+  { id: 'black', name: 'Obsidian Leather', image: '/vanguarde-calibre-01/watch-hero.png', color: '#1A1A1A' },
+  { id: 'titanium', name: 'Brushed Titanium', image: '/vanguarde-calibre-01/watch-titanium.png', color: '#8E8E8E' },
+  { id: 'cognac', name: 'Cognac Calfskin', image: '/vanguarde-calibre-01/watch-cognac.png', color: '#5D3A1A' },
 ];
 
 export default function PersonalizationSection() {
-  const { currentVariant, setCurrentVariant, addItem } = useStore();
+  const { currentVariant, setCurrentVariant, addItem, openCart } = useStore();
+
+  const handleSelectVariant = (variant: ProductVariant) => {
+    if (currentVariant.id === variant.id) return;
+    setCurrentVariant(variant);
+    toast.gold('Configuration Updated', `Strap set to ${variant.name}`, {
+      badge: 'BESPOKE CONFIG',
+      duration: 3500,
+    });
+  };
 
   const handleAddToCart = () => {
     addItem({
@@ -20,6 +30,18 @@ export default function PersonalizationSection() {
       variant: currentVariant.name,
       price: 12400,
       image: currentVariant.image
+    });
+
+    toast.cart({
+      name: 'Calibre 01',
+      variant: currentVariant.name,
+      price: 12400,
+      image: currentVariant.image,
+      description: 'Your bespoke timepiece has been secured in your collection.',
+      action: {
+        label: 'View Cart',
+        onClick: () => openCart(),
+      },
     });
   };
 
@@ -34,9 +56,9 @@ export default function PersonalizationSection() {
             {variants.map((variant) => (
               <button
                 key={variant.id}
-                onClick={() => setCurrentVariant(variant)}
+                onClick={() => handleSelectVariant(variant)}
                 aria-label={`Select ${variant.name} variant`}
-                className="flex items-center gap-6 w-full text-left group outline-none"
+                className="flex items-center gap-6 w-full text-left group outline-none cursor-pointer"
               >
                 <div 
                   className={`w-12 h-12 rounded-full border-2 p-1 transition-all duration-300 ${currentVariant.id === variant.id ? 'border-accent scale-110' : 'border-transparent group-hover:border-gray-200'}`}
@@ -44,7 +66,7 @@ export default function PersonalizationSection() {
                   <div className="w-full h-full rounded-full" style={{ backgroundColor: variant.color }} />
                 </div>
                 <div>
-                  <p className={`text-xs uppercase tracking-widest font-bold transition-colors ${currentVariant.id === variant.id ? 'text-black' : 'text-gray-400'}`}>
+                  <p className={`text-xs uppercase tracking-widest font-bold transition-colors ${currentVariant.id === variant.id ? 'text-black' : 'text-gray-400 group-hover:text-gray-700'}`}>
                     {variant.name}
                   </p>
                   <p className="text-[10px] text-gray-400">Available Signature Collection</p>
@@ -56,7 +78,7 @@ export default function PersonalizationSection() {
           <div className="mt-12">
             <button 
               onClick={handleAddToCart}
-              className="px-10 py-5 bg-black text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-accent transition-colors duration-500 rounded-sm shadow-xl shadow-black/10 active:scale-95"
+              className="px-10 py-5 bg-black text-white text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-accent transition-colors duration-500 rounded-sm shadow-xl shadow-black/10 active:scale-95 cursor-pointer"
             >
               Reserve Your Timepiece
             </button>

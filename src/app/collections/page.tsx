@@ -7,11 +7,12 @@ import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from '@/store/useToast';
 
 const otherModels = [
-  { id: 'heritage-1952', name: 'Heritage 1952', ref: 'Ref. HS2', price: '$18,500', image: '/watch-hero.png' },
-  { id: 'sky-gazer', name: 'Sky-Gazer', ref: 'Ref. SQ09', price: '$24,200', image: '/watch-titanium.png' },
-  { id: 'oceanic-deep', name: 'Oceanic Deep', ref: 'Ref. OD44', price: '$14,800', image: '/watch-cognac.png' },
+  { id: 'heritage-1952', name: 'Heritage 1952', ref: 'Ref. HS2', price: '$18,500', image: '/vanguarde-calibre-01/watch-hero.png' },
+  { id: 'sky-gazer', name: 'Sky-Gazer', ref: 'Ref. SQ09', price: '$24,200', image: '/vanguarde-calibre-01/watch-titanium.png' },
+  { id: 'oceanic-deep', name: 'Oceanic Deep', ref: 'Ref. OD44', price: '$14,800', image: '/vanguarde-calibre-01/watch-cognac.png' },
 ];
 
 export default function CollectionsPage() {
@@ -38,6 +39,7 @@ export default function CollectionsPage() {
               <Link 
                 key={watch.name}
                 href={`/collections/${watch.id}`}
+                onClick={() => toast.info('Exhibiting Timepiece', `Viewing ${watch.name} (${watch.ref})`)}
                 className="group cursor-pointer"
               >
                 <motion.div 

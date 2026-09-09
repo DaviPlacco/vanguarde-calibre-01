@@ -32,7 +32,7 @@ export default function MacroHero() {
         className="relative w-full h-full max-w-[1200px] flex items-center justify-center p-8 lg:p-20 lg:ml-auto lg:mr-[-10%]"
       >
         <img 
-          src="/vanguarde-macro-hero.jpg" 
+          src="/vanguarde-calibre-01/vanguarde-macro-hero.jpg" 
           alt="Vanguarde Calibre 01 Engineering" 
           className="w-full h-full object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.1)]"
         />

@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar, MapPin, Phone } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Footer from '@/components/Footer';
+import { toast } from '@/store/useToast';
 
 const MapComponent = dynamic(() => import('@/components/MapComponent'), { 
   ssr: false,
@@ -27,7 +28,7 @@ const boutiques = [
     address: 'Place Vendôme 8', 
     type: 'Luxury Boutique',
     coordsText: '48.8566° N, 2.3522° E',
-    latLng: [48.8667, 2.3292] as [number, number], // Fixed for Place Vendôme
+    latLng: [48.8667, 2.3292] as [number, number],
     offset: { x: -50, y: 30 }
   },
   { 
@@ -35,7 +36,7 @@ const boutiques = [
     address: 'Ginza 4-Chome', 
     type: 'Artisan Atelier',
     coordsText: '35.6762° N, 139.6503° E',
-    latLng: [35.6714, 139.7650] as [number, number], // Fixed for Ginza
+    latLng: [35.6714, 139.7650] as [number, number],
     offset: { x: 100, y: -40 }
   },
 ];
@@ -44,6 +45,29 @@ export default function BoutiquesPage() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedBoutique, setSelectedBoutique] = useState(boutiques[0]);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [requestedDate, setRequestedDate] = useState('');
+
+  const handleSelectBoutique = (b: typeof boutiques[0]) => {
+    setSelectedBoutique(b);
+    toast.info('Boutique Selected', `${b.city} Flagship · ${b.address}`, {
+      badge: 'SALON LOCATOR'
+    });
+  };
+
+  const handleOpenBooking = () => {
+    setIsBookingOpen(true);
+    toast.gold('Private Viewing', `Scheduling consultation for ${selectedBoutique.city} Salon`);
+  };
+
+  const handleConfirmAppointment = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsBookingOpen(false);
+    toast.success(
+      'Exclusive Access Requested',
+      `Your private viewing at ${selectedBoutique.city} (${selectedBoutique.address}) is submitted. A dedicated liaison will contact you within 2 hours.`,
+      { duration: 6000 }
+    );
+  };
 
   return (
     <main className="min-h-screen bg-[#FBFBFB]">
@@ -63,16 +87,16 @@ export default function BoutiquesPage() {
             </motion.div>
             
             <div className="space-y-6">
-              {boutiques.map((b, i) => (
+              {boutiques.map((b) => (
                 <div 
                   key={b.city}
                   role="button"
                   tabIndex={0}
-                  onClick={() => setSelectedBoutique(b)}
+                  onClick={() => handleSelectBoutique(b)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
-                      setSelectedBoutique(b);
+                      handleSelectBoutique(b);
                     }
                   }}
                   className={`w-full text-left group border-b border-black/5 pb-8 transition-all duration-500 cursor-pointer outline-none ${selectedBoutique.city === b.city ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}
@@ -90,9 +114,9 @@ export default function BoutiquesPage() {
                         layoutId="book-btn"
                         onClick={(e) => { 
                           e.stopPropagation(); 
-                          setIsBookingOpen(true); 
+                          handleOpenBooking();
                         }}
-                        className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold border-b border-black pb-1 hover:text-accent hover:border-accent transition-colors relative z-20"
+                        className="text-[9px] md:text-[10px] uppercase tracking-widest font-bold border-b border-black pb-1 hover:text-accent hover:border-accent transition-colors relative z-20 cursor-pointer"
                       >
                         Book Appointment
                       </motion.button>
@@ -153,15 +177,19 @@ export default function BoutiquesPage() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white p-12 z-[101] shadow-2xl rounded-sm"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white p-8 md:p-12 z-[101] shadow-2xl rounded-sm"
             >
-              <button onClick={() => setIsBookingOpen(false)} className="absolute top-8 right-8 text-gray-400 hover:text-black transition-colors">
-                <X className="w-6 h-6 stroke-[1px]" />
+              <button 
+                onClick={() => setIsBookingOpen(false)} 
+                aria-label="Close booking modal"
+                className="absolute top-6 right-6 text-gray-400 hover:text-black transition-colors p-2"
+              >
+                <X className="w-5 h-5 stroke-[1px]" />
               </button>
               
-              <h2 className="text-4xl font-serif mb-8">Private Appointment <br /><span className="italic text-accent">in {selectedBoutique.city}</span></h2>
+              <h2 className="text-3xl md:text-4xl font-serif mb-8">Private Appointment <br /><span className="italic text-accent">in {selectedBoutique.city}</span></h2>
               
-              <div className="space-y-8">
+              <form onSubmit={handleConfirmAppointment} className="space-y-6">
                 <div className="flex items-start gap-4">
                   <MapPin className="w-5 h-5 text-accent shrink-0 mt-1" />
                   <div>
@@ -172,9 +200,15 @@ export default function BoutiquesPage() {
                 
                 <div className="flex items-start gap-4">
                   <Calendar className="w-5 h-5 text-accent shrink-0 mt-1" />
-                  <div>
+                  <div className="flex-1">
                     <p className="text-[10px] uppercase tracking-widest font-bold mb-1">Requested Date</p>
-                    <input type="date" className="text-sm text-gray-500 bg-transparent border-none focus:ring-0 p-0" />
+                    <input 
+                      type="date" 
+                      required
+                      value={requestedDate}
+                      onChange={(e) => setRequestedDate(e.target.value)}
+                      className="text-sm text-gray-700 bg-transparent border-b border-black/10 focus:border-accent focus:outline-none py-1 w-full" 
+                    />
                   </div>
                 </div>
 
@@ -182,14 +216,17 @@ export default function BoutiquesPage() {
                   <Phone className="w-5 h-5 text-accent shrink-0 mt-1" />
                   <div>
                     <p className="text-[10px] uppercase tracking-widest font-bold mb-1">Preferred Contact</p>
-                    <p className="text-sm text-gray-500">A dedicated consultant will reach out within 2 hours.</p>
+                    <p className="text-sm text-gray-500">A dedicated consultant will reach out via encrypted channel within 2 hours.</p>
                   </div>
                 </div>
 
-                <button className="w-full py-6 bg-black text-white text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-accent transition-all duration-500 mt-4 shadow-xl shadow-black/10">
+                <button 
+                  type="submit"
+                  className="w-full py-5 bg-black text-white text-[10px] uppercase tracking-[0.3em] font-bold hover:bg-accent transition-all duration-500 mt-6 shadow-xl shadow-black/10 cursor-pointer"
+                >
                   Confirm Exclusive Access
                 </button>
-              </div>
+              </form>
             </motion.div>
           </>
         )}

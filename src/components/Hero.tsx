@@ -4,6 +4,8 @@ import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { toast } from '@/store/useToast';
+
 export default function Hero() {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 100]);
@@ -65,8 +67,11 @@ export default function Hero() {
           </motion.div>
 
           <motion.div variants={itemVariants} className="flex justify-center lg:justify-start">
-            <Link href="/manual">
-              <button className="group relative px-10 py-5 bg-transparent border border-black/10 hover:border-accent transition-colors duration-500 overflow-hidden rounded-sm">
+            <Link 
+              href="/manual"
+              onClick={() => toast.info('Accessing Bureau', 'Loading Calibre 01 architecture specifications...')}
+            >
+              <button className="group relative px-10 py-5 bg-transparent border border-black/10 hover:border-accent transition-colors duration-500 overflow-hidden rounded-sm cursor-pointer">
                 <span className="relative z-10 text-[10px] uppercase tracking-[0.3em] font-bold group-hover:text-accent transition-colors">
                   Explore Architecture
                 </span>
@@ -85,7 +90,7 @@ export default function Hero() {
           className="relative lg:absolute lg:right-[-5%] lg:top-[10%] w-full lg:w-[55%] h-[40vh] md:h-[50vh] lg:h-[80%] order-1 lg:order-2"
         >
           <Image 
-            src="/watch-hero.png" 
+            src="/vanguarde-calibre-01/watch-hero.png" 
             alt="Vanguarde Calibre 01 Luxury Watch" 
             fill
             className="object-contain"

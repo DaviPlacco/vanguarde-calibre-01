@@ -6,6 +6,7 @@ import CartDrawer from '@/components/CartDrawer';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { toast } from '@/store/useToast';
 
 const CraftSection = ({ title, text, image, index }: { title: string; text: string; image: string; index: number }) => {
   const ref = useRef(null);
@@ -50,17 +51,17 @@ export default function CraftsmanshipPage() {
     {
       title: "The Birth of \nTitanium",
       text: "Each case begins as a solid block of grade 5 titanium, chosen for its unparalleled strength-to-weight ratio and hypoallergenic properties.",
-      image: "/watch-titanium.png"
+      image: "/vanguarde-calibre-01/watch-titanium.png"
     },
     {
       title: "The Invisible \nArtisan",
       text: "Our master watchmakers spend over 120 hours on the manual finishing of the Calibre 01, ensuring every bevel catches the light perfectly.",
-      image: "/heritage-back.png"
+      image: "/vanguarde-calibre-01/heritage-back.png"
     },
     {
       title: "Chronometric \nElegance",
       text: "Beyond aesthetics, precision is our obsession. Each movement is tested across six positions to exceed COSC standards.",
-      image: "/watch-hero.png"
+      image: "/vanguarde-calibre-01/watch-hero.png"
     }
   ];
 
@@ -120,11 +121,14 @@ export default function CraftsmanshipPage() {
              whileHover={{ scale: 1.05 }}
              className="mt-20 inline-block"
            >
-              <Link href="/manual">
-                <button className="px-12 py-6 bg-white text-black text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-accent hover:text-white transition-all duration-500 rounded-sm">
-                   Explore Technical Manual
-                </button>
-              </Link>
+              <Link 
+                 href="/manual"
+                 onClick={() => toast.info('Accessing Bureau', 'Loading Calibre 01 horological blueprints...')}
+               >
+                 <button className="px-12 py-6 bg-white text-black text-[10px] uppercase tracking-[0.4em] font-bold hover:bg-accent hover:text-white transition-all duration-500 rounded-sm cursor-pointer">
+                    Explore Technical Manual
+                 </button>
+               </Link>
            </motion.div>
         </div>
       </section>
