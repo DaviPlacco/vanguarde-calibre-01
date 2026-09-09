@@ -6,7 +6,6 @@ import Footer from '@/components/Footer';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { toast } from '@/store/useToast';
 
 const otherModels = [
   { id: 'heritage-1952', name: 'Heritage 1952', ref: 'Ref. HS2', price: '$18,500', image: '/vanguarde-calibre-01/watch-hero.png' },
@@ -36,7 +35,6 @@ export default function CollectionsPage() {
               <Link 
                 key={watch.name}
                 href={`/collections/${watch.id}`}
-                onClick={() => toast.info('Exhibiting Timepiece', `Viewing ${watch.name} (${watch.ref})`)}
                 className="group cursor-pointer"
               >
                 <motion.div 

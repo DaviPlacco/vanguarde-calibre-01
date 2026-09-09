@@ -17,10 +17,6 @@ export default function PersonalizationSection() {
   const handleSelectVariant = (variant: ProductVariant) => {
     if (currentVariant.id === variant.id) return;
     setCurrentVariant(variant);
-    toast.gold('Configuration Updated', `Strap set to ${variant.name}`, {
-      badge: 'BESPOKE CONFIG',
-      duration: 3500,
-    });
   };
 
   const handleAddToCart = () => {

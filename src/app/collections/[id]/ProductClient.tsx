@@ -198,10 +198,7 @@ export default function ProductClient({ id }: { id: string }) {
               {product.images.map((img: string, i: number) => (
                 <button 
                   key={i}
-                  onClick={() => {
-                    setActiveImage(i);
-                    toast.info('Angle Perspective', `Perspective ${i + 1} of ${product.name}`);
-                  }}
+                  onClick={() => setActiveImage(i)}
                   className={`relative aspect-square bg-white rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${activeImage === i ? 'border-accent' : 'border-transparent hover:border-gray-200'}`}
                 >
                   <Image src={img} alt={`Angle ${i}`} fill className="object-cover p-2" />
