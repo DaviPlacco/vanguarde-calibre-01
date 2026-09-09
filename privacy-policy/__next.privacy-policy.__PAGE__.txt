@@ -1,9 +1,9 @@
 1:"$Sreact.fragment"
-2:I[47257,["/vanguarde-calibre-01/_next/static/chunks/01xlw8hd842-c.js","/vanguarde-calibre-01/_next/static/chunks/0d3shmwh5_nmn.js"],"ClientPageRoot"]
-3:I[16424,["/vanguarde-calibre-01/_next/static/chunks/01xlw8hd842-c.js","/vanguarde-calibre-01/_next/static/chunks/0d3shmwh5_nmn.js","/vanguarde-calibre-01/_next/static/chunks/07k907a524jjr.js","/vanguarde-calibre-01/_next/static/chunks/0o_y.v.cp1bkc.js","/vanguarde-calibre-01/_next/static/chunks/17.woycxuzfgq.js"],"default"]
-6:I[97367,["/vanguarde-calibre-01/_next/static/chunks/01xlw8hd842-c.js","/vanguarde-calibre-01/_next/static/chunks/0d3shmwh5_nmn.js"],"OutletBoundary"]
+2:I[47257,["/vanguarde-calibre-01/_next/static/chunks/0o-..dj390bly.js","/vanguarde-calibre-01/_next/static/chunks/08mad7pqkwohp.js","/vanguarde-calibre-01/_next/static/chunks/0d3shmwh5_nmn.js"],"ClientPageRoot"]
+3:I[16424,["/vanguarde-calibre-01/_next/static/chunks/0o-..dj390bly.js","/vanguarde-calibre-01/_next/static/chunks/08mad7pqkwohp.js","/vanguarde-calibre-01/_next/static/chunks/0d3shmwh5_nmn.js","/vanguarde-calibre-01/_next/static/chunks/0l6kj1m77_l...js"],"default"]
+6:I[97367,["/vanguarde-calibre-01/_next/static/chunks/0o-..dj390bly.js","/vanguarde-calibre-01/_next/static/chunks/08mad7pqkwohp.js","/vanguarde-calibre-01/_next/static/chunks/0d3shmwh5_nmn.js"],"OutletBoundary"]
 7:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/vanguarde-calibre-01/_next/static/chunks/07k907a524jjr.js","async":true}],["$","script","script-1",{"src":"/vanguarde-calibre-01/_next/static/chunks/0o_y.v.cp1bkc.js","async":true}],["$","script","script-2",{"src":"/vanguarde-calibre-01/_next/static/chunks/17.woycxuzfgq.js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"IFYtqI9PApmiljncvCA5g"}
+0:{"rsc":["$","$1","c",{"children":[["$","$L2",null,{"Component":"$3","serverProvidedParams":{"searchParams":{},"params":{},"promises":["$@4","$@5"]}}],[["$","script","script-0",{"src":"/vanguarde-calibre-01/_next/static/chunks/0l6kj1m77_l...js","async":true}]],["$","$L6",null,{"children":["$","$7",null,{"name":"Next.MetadataOutlet","children":"$@8"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"U3PV7ULG_ANH0dHSu-8-M"}
 4:{}
 5:"$0:rsc:props:children:0:props:serverProvidedParams:params"
 8:null
