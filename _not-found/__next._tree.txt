@@ -1,2 +1,2 @@
-:HL["/vanguarde-calibre-01/_next/static/chunks/0sq208ojovrdf.css","style"]
-0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"DPfD4OdeoiT3fjndxoNm-"}
+:HL["/vanguarde-calibre-01/_next/static/chunks/0-ujw-3y9d2ge.css","style"]
+0:{"tree":{"name":"","param":null,"prefetchHints":16,"slots":{"children":{"name":"/_not-found","param":null,"prefetchHints":0,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":0,"slots":null}}}}},"staleTime":300,"buildId":"HuXfKYeNvFd1XscrQCmH0"}
